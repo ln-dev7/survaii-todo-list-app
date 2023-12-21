@@ -16,9 +16,11 @@ import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { useQuery, useMutation } from "@apollo/client";
 import { DELETE_TODO } from "@/graphql/mutations";
+import { useRouter } from "next/navigation";
 
 export function DeleteTodo({ todoId }: { todoId: number }) {
   const { toast } = useToast();
+  const router = useRouter();
 
   const [deleteTodo] = useMutation(DELETE_TODO, {
     onCompleted: () => {
@@ -27,6 +29,7 @@ export function DeleteTodo({ todoId }: { todoId: number }) {
         description: "Todo has been deleted",
         action: <ToastAction altText="Todo has been deleted">Undo</ToastAction>,
       });
+      router.push("/");
     },
   });
 
