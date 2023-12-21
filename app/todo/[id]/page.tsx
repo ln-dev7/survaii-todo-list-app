@@ -51,14 +51,22 @@ export default function TotoDetail({ params }: { params: { id: string } }) {
         <div className="space-y-2 mb-6">
           <h1 className="text-2xl font-bold">{todo.title}</h1>
           <p className="text-slate-500">{todo.description}</p>
-          <div className="p-3 flex items-center justify-end w-full rounded-lg">
-            <p className="text-blue-600 text-sm italic underline underline-offset-4 font-semibold">
-              TODO Completed !
-            </p>
-          </div>
+          {todo.completed && (
+            <div className="p-3 flex items-center justify-end w-full rounded-lg">
+              <p className="text-blue-600 text-sm italic underline underline-offset-4 font-semibold">
+                TODO Completed !
+              </p>
+            </div>
+          )}
         </div>
         <div className="border-t flex items-center justify-end gap-2 w-full py-6">
-          <EditTodo />
+          <EditTodo
+            id={parseInt(id as string, 10)}
+            title={todo.title}
+            description={todo.description}
+            completed={todo.completed}
+            imageURL={todo.imageURL}
+          />
           <DeleteTodo todoId={parseInt(id as string, 10)} />
         </div>
       </div>

@@ -2,6 +2,7 @@
 
 import {
   AlertDialog,
+  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogHeader,
@@ -23,11 +24,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import * as z from "zod";
-import { ToastAction } from "@/components/ui/toast"
-import { useToast } from "@/components/ui/use-toast"
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
+import { useMutation } from "@apollo/client";
+import { CREATE_TODO } from "@/graphql/mutations";
+import { GET_TODOS } from "@/graphql/queries";
 
 export function AddTodo() {
-  const { toast } = useToast()
+  const { toast } = useToast();
 
   const addTodoSchema = z.object({
     title: z.string().min(3, {
@@ -46,13 +50,32 @@ export function AddTodo() {
     defaultValues: {
       title: "",
       description: "",
-      imageURL: "", // https://picsum.photos/1080/720
+      imageURL: "https://source.unsplash.com/random/",
     },
   });
 
-  function onSubmit(values: z.infer<typeof addTodoSchema>) {
-    console.log(values);
-  }
+  const [createTodo] = useMutation(CREATE_TODO, {
+    refetchQueries: [{ query: GET_TODOS }],
+    onCompleted: () => {
+      toast({
+        title: "Todo has been added",
+        description: "Todo has been added",
+        action: <ToastAction altText="Todo has been added">Undo</ToastAction>,
+      });
+    },
+  });
+
+  const onSubmit = async (values: z.infer<typeof addTodoSchema>) => {
+    try {
+      const todoValues = { ...values, userID: "lndev", completed: false };
+      await createTodo({
+        variables: { todo: todoValues },
+      });
+      form.reset()
+    } catch (error) {
+      console.error("Error adding todo:", error);
+    }
+  };
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -110,7 +133,7 @@ export function AddTodo() {
               )}
             />
             <div className="w-full flex items-end justify-end gap-4">
-              <Button type="submit">Add todo</Button>
+              <AlertDialogAction type="submit">Add todo</AlertDialogAction>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
             </div>
           </form>

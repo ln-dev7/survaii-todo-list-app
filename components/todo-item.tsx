@@ -31,9 +31,6 @@ export function TodoItem({
         >
           <Switch
             checked={completed}
-            onCheckedChange={() => {
-              console.log("checked");
-            }}
           />
           <div className="w-[calc(100%-150px)]">
             <h2 className="text-xl font-bold">{title}</h2>
@@ -42,7 +39,7 @@ export function TodoItem({
         </div>
       </Link>
       <div className="flex items-center gap-2 absolute top-3 right-3 z-10">
-        <EditTodo />
+        <EditTodo id={id} title={title} description={description} completed={completed} imageURL={imageURL} />
         <DeleteTodo todoId={id} />
       </div>
     </div>
