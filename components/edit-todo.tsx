@@ -72,14 +72,24 @@ export function EditTodo({
     refetchQueries: [{ query: GET_TODOS, variables: { id: id } }],
     onCompleted: () => {
       toast({
-        title: "Todo has been updated",
         description: "Todo has been updated",
-        action: <ToastAction altText="Todo has been updated">Undo</ToastAction>,
       });
     },
   });
 
   const onSubmit = async (values: z.infer<typeof editTodoSchema>) => {
+    if (
+      values.completed == completed &&
+      values.title == title &&
+      values.description == description &&
+      values.imageURL == imageURL
+    ) {
+      toast({
+        description: "No change",
+        variant: "destructive",
+      });
+      return;
+    }
     try {
       const todoValues = { ...values, userID: "lndev" };
       await updateTodo({
@@ -156,7 +166,9 @@ export function EditTodo({
                     />
                   </FormControl>
                   <div className="mt-[0!important]">
-                    <FormLabel className="font-semibold cursor-pointer">This todo is completed ?</FormLabel>
+                    <FormLabel className="font-semibold cursor-pointer">
+                      This todo is completed ?
+                    </FormLabel>
                   </div>
                 </FormItem>
               )}

@@ -25,9 +25,8 @@ export function DeleteTodo({ todoId }: { todoId: number }) {
   const [deleteTodo] = useMutation(DELETE_TODO, {
     onCompleted: () => {
       toast({
-        title: "Todo has been deleted",
         description: "Todo has been deleted",
-        action: <ToastAction altText="Todo has been deleted">Undo</ToastAction>,
+        variant: "destructive",
       });
       router.push("/");
     },

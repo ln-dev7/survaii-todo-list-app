@@ -58,9 +58,7 @@ export function AddTodo() {
     refetchQueries: [{ query: GET_TODOS }],
     onCompleted: () => {
       toast({
-        title: "Todo has been added",
         description: "Todo has been added",
-        action: <ToastAction altText="Todo has been added">Undo</ToastAction>,
       });
     },
   });
