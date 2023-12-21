@@ -59,7 +59,7 @@ export default function TotoDetail({ params }: { params: { id: string } }) {
         </div>
         <div className="border-t flex items-center justify-end gap-2 w-full py-6">
           <EditTodo />
-          <DeleteTodo />
+          <DeleteTodo todoId={parseInt(id as string, 10)} />
         </div>
       </div>
     </>

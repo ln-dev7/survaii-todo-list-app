@@ -43,7 +43,7 @@ export function TodoItem({
       </Link>
       <div className="flex items-center gap-2 absolute top-3 right-3 z-10">
         <EditTodo />
-        <DeleteTodo />
+        <DeleteTodo todoId={id} />
       </div>
     </div>
   );

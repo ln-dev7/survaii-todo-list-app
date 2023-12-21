@@ -12,8 +12,30 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
+import { useQuery, useMutation } from "@apollo/client";
+import { DELETE_TODO } from "@/graphql/mutations";
 
-export function DeleteTodo({ ...props }) {
+export function DeleteTodo({ todoId }: { todoId: number }) {
+  const { toast } = useToast();
+
+  const [deleteTodo] = useMutation(DELETE_TODO, {
+    onCompleted: () => {
+      toast({
+        title: "Todo has been deleted",
+        description: "Todo has been deleted",
+        action: <ToastAction altText="Todo has been deleted">Undo</ToastAction>,
+      });
+    },
+  });
+
+  const handleDeleteTodo = () => {
+    deleteTodo({
+      variables: { id: todoId },
+    });
+  };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -30,7 +52,9 @@ export function DeleteTodo({ ...props }) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <Button variant="destructive">Delete todo</Button>
+          <AlertDialogAction onClick={handleDeleteTodo}>
+            Delete todo
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

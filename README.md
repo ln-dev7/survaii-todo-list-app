@@ -1,5 +1,5 @@
 # Todo List App
-![alt text](docs/logo.jpg "survaii logo")
+![alt text](public/logo.jpg "survaii logo")
 
 In this task we will need you to create a simple todo list app with some requirements. 
 Your app should have 2 views, one for the `listing` and another to display todo `details`.

@@ -23,8 +23,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import * as z from "zod";
+import { ToastAction } from "@/components/ui/toast"
+import { useToast } from "@/components/ui/use-toast"
 
-export function EditTodo({ ...props }) {
+export function EditTodo({ }:{}) {
+  const { toast } = useToast()
+
   const editTodoSchema = z.object({
     title: z.string().min(3, {
       message: "Title must be at least 3 characters.",
