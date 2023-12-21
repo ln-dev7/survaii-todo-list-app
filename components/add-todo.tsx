@@ -29,9 +29,11 @@ import { useToast } from "@/components/ui/use-toast";
 import { useMutation } from "@apollo/client";
 import { CREATE_TODO } from "@/graphql/mutations";
 import { GET_TODOS } from "@/graphql/queries";
+import { useRouter } from "next/navigation";
 
 export function AddTodo() {
   const { toast } = useToast();
+  const router = useRouter()
 
   const addTodoSchema = z.object({
     title: z.string().min(3, {
@@ -60,6 +62,7 @@ export function AddTodo() {
       toast({
         description: "Todo has been added",
       });
+      router.push("/")
     },
   });
 
@@ -131,7 +134,7 @@ export function AddTodo() {
               )}
             />
             <div className="w-full flex items-end justify-end gap-4">
-              <AlertDialogAction type="submit">Add todo</AlertDialogAction>
+              <Button type="submit">Add todo</Button>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
             </div>
           </form>
